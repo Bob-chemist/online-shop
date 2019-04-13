@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import classes from './ErrorBoundary.module.sass';
+import ErrorIndicator from '../ErrorIndicator';
 
 export default class ErrorBoundary extends Component {
+  state = {
+    hasError: false,
+  };
+  componentDidCatch() {
+    this.setState({
+      hasError: true,
+    });
+  }
   render() {
-    return <div />;
+    const { hasError } = this.state;
+    return hasError ? <ErrorIndicator /> : this.props.children;
   }
 }

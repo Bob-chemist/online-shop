@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import classes from './BookstoreServiceContext.module.sass';
+import React from 'react';
 
-export default class BookstoreServiceContext extends Component {
-  render() {
-    return <div />;
-  }
-}
+const {
+  Provider: BookstoreServiceProvider,
+  Consumer: BookstoreServiceConsumer,
+} = React.createContext();
+
+export { BookstoreServiceProvider, BookstoreServiceConsumer };
