@@ -1,8 +1,13 @@
 import React from 'react';
 import classes from './ErrorIndicator.module.sass';
 
-const ErrorIndicator = () => {
-  return <div className={classes.ErrorIndicator}>Error!</div>;
+const ErrorIndicator = ({ error }) => {
+  return (
+    <div>
+      <div className={classes.ErrorIndicator}>Error!</div>;
+      <div className={classes.ErrorIndicator}>{error.message}</div>;
+    </div>
+  );
 };
 
 export default ErrorIndicator;
