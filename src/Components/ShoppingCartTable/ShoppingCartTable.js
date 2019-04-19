@@ -1,7 +1,20 @@
 import React from 'react';
 import classes from './ShoppingCartTable.module.sass';
+import { connect } from 'react-redux';
+import {
+  bookAddedToCart,
+  bookDeletedFromCart,
+  bookDecreasedInCart,
+} from '../../Actions';
+import RenderRow from './RenderRow';
 
-const ShoppingCartTable = () => {
+const ShoppingCartTable = ({
+  cartItems,
+  orderTotal,
+  onAddedToCart,
+  onDeletedFromCart,
+  onDecreasedInCart,
+}) => {
   return (
     <div className={classes.ShoppingCartTable}>
       <h2>Your order</h2>
@@ -17,29 +30,40 @@ const ShoppingCartTable = () => {
         </thead>
 
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Site Reliability Engineering</td>
-            <td>2</td>
-            <td>$40</td>
-            <td>
-              <button className="btn btn-outline-danger btn-sm float-right">
-                <i className="fa fa-trash-o" />
-              </button>
-              <button className="btn btn-outline-success btn-sm float-right">
-                <i className="fa fa-plus-circle" />
-              </button>
-              <button className="btn btn-outline-warning btn-sm float-right">
-                <i className="fa fa-minus-circle" />
-              </button>
-            </td>
-          </tr>
+          {cartItems.map((item, index) => {
+            return (
+              <RenderRow
+                key={index}
+                item={item}
+                index={index}
+                onAddedToCart={() => onAddedToCart(item.id)}
+                onDeletedFromCart={() => onDeletedFromCart(item.id)}
+                onDecreasedInCart={() => onDecreasedInCart(item.id)}
+              />
+            );
+          })}
         </tbody>
       </table>
 
-      <div className={classes.Total}>Total: $201</div>
+      <div className={classes.Total}>Total: ${orderTotal}</div>
     </div>
   );
 };
 
-export default ShoppingCartTable;
+const mapStateToProps = ({ shoppingCart: { cartItems, orderTotal } }) => {
+  return {
+    cartItems,
+    orderTotal,
+  };
+};
+
+const mapDispatchToProps = {
+  onAddedToCart: bookAddedToCart,
+  onDeletedFromCart: bookDeletedFromCart,
+  onDecreasedInCart: bookDecreasedInCart,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ShoppingCartTable);

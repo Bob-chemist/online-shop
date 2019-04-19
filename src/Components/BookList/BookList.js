@@ -3,18 +3,21 @@ import BookListItem from './BookListItem';
 import { connect } from 'react-redux';
 import classes from './BookList.module.sass';
 import { withBookstoreService } from '../../hoc';
-import { fetchBooks } from '../../Actions';
+import { fetchBooks, bookAddedToCart } from '../../Actions';
 import { compose } from '../../Utils';
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
 
-const BookList = ({ books }) => {
+const BookList = ({ books, onAddedToCart }) => {
   return (
     <ul className={classes.BookList}>
       {books.map(book => {
         return (
           <li key={book.id}>
-            <BookListItem book={book} />
+            <BookListItem
+              book={book}
+              onAddedToCart={() => onAddedToCart(book.id)}
+            />
           </li>
         );
       })}
@@ -28,14 +31,14 @@ class BookListContainer extends Component {
   }
 
   render() {
-    const { books, loading, error } = this.props;
+    const { books, loading, error, onAddedToCart } = this.props;
     if (loading) return <Loader />;
     if (error) return <ErrorIndicator error={error} />;
-    return <BookList books={books} />;
+    return <BookList books={books} onAddedToCart={onAddedToCart} />;
   }
 }
 
-const mapStateToProps = ({ books, loading, error }) => {
+const mapStateToProps = ({ bookList: { books, loading, error } }) => {
   return {
     books,
     loading,
@@ -46,6 +49,7 @@ const mapStateToProps = ({ books, loading, error }) => {
 const mapDispatchToProps = (dispatch, { bookstoreService }) => {
   return {
     fetchBooks: fetchBooks(bookstoreService, dispatch),
+    onAddedToCart: id => dispatch(bookAddedToCart(id)),
   };
 };
 
