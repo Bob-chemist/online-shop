@@ -1,12 +1,12 @@
 import React from 'react';
-import { withBookstoreService } from '../hoc';
+import ShoppingCartTable from '../Components/ShoppingCartTable';
 
-const CartPage = ({ bookstoreService, itemId }) => {
-  const [book] = bookstoreService.getBooks().filter(item => {
-    return item.id === +itemId;
-  });
-
-  return <div>{`${book.author}`}</div>;
+const CartPage = () => {
+  return (
+    <div>
+      <ShoppingCartTable />
+    </div>
+  );
 };
 
-export default withBookstoreService()(CartPage);
+export default CartPage;

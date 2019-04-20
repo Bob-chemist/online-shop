@@ -5,21 +5,20 @@ const updateShoppingCart = (state, action) => {
       cartItems: [],
     };
   }
+  let cartItems = [];
 
   switch (action.type) {
     case 'BOOK_ADDED_TO_CART':
       let bookId = action.payload;
-      let cartItems = state.shoppingCart.cartItems.find(
-        item => item.id === bookId
-      )
+      cartItems = state.shoppingCart.cartItems.find(item => item.id === bookId)
         ? updateCartItem(state, bookId, 1)
         : addCartItem(state, bookId);
-      return { orderTotal: 0, cartItems };
+      break;
 
     case 'BOOK_DELETED_FROM_CART':
       bookId = action.payload;
       cartItems = deleteCartItem(state, bookId);
-      return { orderTotal: 0, cartItems };
+      break;
 
     case 'BOOK_DECREASED_IN_CART':
       bookId = action.payload;
@@ -30,12 +29,20 @@ const updateShoppingCart = (state, action) => {
         book.count === 1
           ? deleteCartItem(state, bookId)
           : updateCartItem(state, bookId, -1);
-
-      return { orderTotal: 0, cartItems };
+      break;
 
     default:
-      return state.shoppingCart;
+      cartItems = [...state.shoppingCart.cartItems];
+      break;
   }
+  console.log(cartItems);
+
+  const orderTotal = !cartItems
+    ? 0
+    : cartItems.reduce((acc, { subtotal }) => {
+        return acc + subtotal;
+      }, 0);
+  return { orderTotal, cartItems };
 };
 
 const deleteCartItem = ({ shoppingCart: { cartItems } }, bookId) => {

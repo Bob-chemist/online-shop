@@ -6,13 +6,10 @@ import Header from './Components/Header';
 const App = () => {
   return (
     <main role="main" className="container">
-      <Header numItems={5} total={120} />
+      <Header />
       <Switch>
         <Route path="/" exact component={HomePage} />
-        <Route
-          path="/cart/:id"
-          render={({ match }) => <CartPage itemId={match.params.id} />}
-        />
+        <Route path="/cart/" component={CartPage} />
       </Switch>
     </main>
   );
