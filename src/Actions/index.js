@@ -39,14 +39,6 @@ const bookDeletedFromCart = bookId => {
   };
 };
 
-const fetchBooksOld = (bookstoreService, dispatch) => () => {
-  dispatch(booksRequested());
-  bookstoreService
-    .getBooks()
-    .then(data => dispatch(booksLoaded(data)))
-    .catch(e => dispatch(booksError(e)));
-};
-
 const fetchBooks = bookstoreService => () => dispatch => {
   dispatch(booksRequested());
   bookstoreService
