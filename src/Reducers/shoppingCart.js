@@ -35,7 +35,6 @@ const updateShoppingCart = (state, action) => {
       cartItems = [...state.shoppingCart.cartItems];
       break;
   }
-  console.log(cartItems);
 
   const orderTotal = !cartItems
     ? 0

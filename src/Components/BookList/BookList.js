@@ -32,6 +32,8 @@ class BookListContainer extends Component {
   }
 
   render() {
+    console.log('booklist:', this.props);
+
     const { books, loading, error, onAddedToCart } = this.props;
     if (loading) return <Loader />;
     if (error) return <ErrorIndicator error={error} />;
@@ -50,7 +52,6 @@ const mapStateToProps = ({ bookList: { books, loading, error } }) => {
 const mapDispatchToProps = (dispatch, { bookstoreService }) => {
   return bindActionCreators(
     {
-      // fetchBooks: fetchBooks(bookstoreService, dispatch),
       fetchBooks: fetchBooks(bookstoreService),
       onAddedToCart: bookAddedToCart,
     },

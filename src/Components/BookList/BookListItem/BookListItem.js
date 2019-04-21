@@ -3,14 +3,14 @@ import classes from './BookListItem.module.sass';
 import { Link } from 'react-router-dom';
 
 const BookListItem = ({ book, onAddedToCart }) => {
-  const { title, author, price, coverImage } = book;
+  const { id, title, author, price, coverImage } = book;
   return (
     <div className={classes.BookListItem}>
       <div className={classes.BookCover}>
         <img src={coverImage} alt={title} />
       </div>
       <div className={classes.BookDetails}>
-        <Link to="#" className={classes.BookTitle}>
+        <Link to={`details/${id}`} className={classes.BookTitle}>
           {title}
         </Link>
         <div className={classes.BookAuthor}>{author}</div>
