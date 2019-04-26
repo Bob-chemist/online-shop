@@ -9,6 +9,11 @@
 # API token
 /src/Components/Auth/API.js
 
+# firebase deployment
+/.firebase
+.firebaserc
+firebase.json
+
 # testing
 /coverage
 

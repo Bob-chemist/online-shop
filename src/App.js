@@ -13,7 +13,6 @@ const App = props => {
         <Route path="/" exact component={HomePage} />
         <Route path="/cart/" component={CartPage} />
         <Route path="/details/:id" component={DetailsPage} />
-        {/* <Route path="/login/" component={LoginPage} /> */}
         <Route
           path={'/login'}
           render={() =>
