@@ -1,8 +1,8 @@
-#Книжный онлайн-магазин
+# Книжный онлайн-магазин
 
 ## [Книжный магазин](https://book-store-a12f5.firebaseapp.com/ 'Книжный магазин')
 
-###Использованы
+### Использованы
 
 - Навигация - React Router (BrowserRouter, Route, Switch, Link, Redirect);
 - БД - NoSQL на Firebase, получение данный в json формате;
