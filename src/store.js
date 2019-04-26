@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducer from './Reducers';
+import rootReducer from './Reducers/rootReducer';
 import thunkMiddleware from 'redux-thunk';
 
 const logMiddleware = () => next => action => {
@@ -9,7 +9,7 @@ const logMiddleware = () => next => action => {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  reducer,
+  rootReducer,
   composeEnhancers(applyMiddleware(thunkMiddleware, logMiddleware))
 );
 

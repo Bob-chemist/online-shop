@@ -6,6 +6,7 @@ import { withBookstoreService } from '../hoc';
 import { fetchBooks, bookAddedToCart } from '../Actions';
 import { compose } from '../Utils';
 import { bindActionCreators } from 'redux';
+import BookDetails from '../Components/BookDetails';
 
 class DetailsPage extends Component {
   componentDidMount() {
@@ -18,23 +19,9 @@ class DetailsPage extends Component {
 
     if (loading) return <Loader />;
     if (error) return <ErrorIndicator error={error} />;
-    const { id, title, author, coverImage, isbn, price } = books.find(
-      item => item.id === +bookId
-    );
+    const book = books.find(item => item.id === +bookId);
     return (
-      <div>
-        <img src={coverImage} alt={title} />
-        <div>Title: {title}</div>
-        <div>Author: {author}</div>
-        <div>Price: ${price}</div>
-        <div>ISBN: {isbn}</div>
-        <button
-          className={'btn btn-info add-to-cart'}
-          onClick={() => onAddedToCart(id)}
-        >
-          Add to cart
-        </button>
-      </div>
+      <BookDetails book={book} onAddedToCart={() => onAddedToCart(book)} />
     );
   }
 }

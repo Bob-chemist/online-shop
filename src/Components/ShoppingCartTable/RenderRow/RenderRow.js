@@ -1,5 +1,5 @@
 import React from 'react';
-//import classes from './RenderRow.module.sass';
+import { Link } from 'react-router-dom';
 
 const RenderRow = ({
   item,
@@ -8,13 +8,15 @@ const RenderRow = ({
   onDeletedFromCart,
   onDecreasedInCart,
 }) => {
-  const { id, title, count, subtotal } = item;
+  const { id, title, count, price } = item;
   return (
     <tr key={id}>
       <td>{index + 1}</td>
-      <td>{title}</td>
+      <td>
+        <Link to={`details/${id}`}>{title}</Link>
+      </td>
       <td>{count}</td>
-      <td>${subtotal}</td>
+      <td>${count * price}</td>
       <td>
         <button
           className="btn btn-outline-danger btn-sm float-right"

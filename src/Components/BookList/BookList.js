@@ -17,7 +17,7 @@ const BookList = ({ books, onAddedToCart }) => {
           <li key={book.id}>
             <BookListItem
               book={book}
-              onAddedToCart={() => onAddedToCart(book.id)}
+              onAddedToCart={() => onAddedToCart(book)}
             />
           </li>
         );
@@ -32,8 +32,6 @@ class BookListContainer extends Component {
   }
 
   render() {
-    console.log('booklist:', this.props);
-
     const { books, loading, error, onAddedToCart } = this.props;
     if (loading) return <Loader />;
     if (error) return <ErrorIndicator error={error} />;

@@ -36,9 +36,9 @@ const ShoppingCartTable = ({
                 key={index}
                 item={item}
                 index={index}
-                onAddedToCart={() => onAddedToCart(item.id)}
-                onDeletedFromCart={() => onDeletedFromCart(item.id)}
-                onDecreasedInCart={() => onDecreasedInCart(item.id)}
+                onAddedToCart={() => onAddedToCart(item)}
+                onDeletedFromCart={() => onDeletedFromCart(item)}
+                onDecreasedInCart={() => onDecreasedInCart(item)}
               />
             );
           })}

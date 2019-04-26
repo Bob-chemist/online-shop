@@ -18,24 +18,24 @@ const booksError = error => {
   };
 };
 
-const bookAddedToCart = bookId => {
+const bookAddedToCart = book => {
   return {
     type: 'BOOK_ADDED_TO_CART',
-    payload: bookId,
+    payload: book,
   };
 };
 
-const bookDecreasedInCart = bookId => {
+const bookDecreasedInCart = book => {
   return {
     type: 'BOOK_DECREASED_IN_CART',
-    payload: bookId,
+    payload: book,
   };
 };
 
-const bookDeletedFromCart = bookId => {
+const bookDeletedFromCart = book => {
   return {
     type: 'BOOK_DELETED_FROM_CART',
-    payload: bookId,
+    payload: book,
   };
 };
 

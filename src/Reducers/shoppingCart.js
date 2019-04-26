@@ -1,83 +1,65 @@
-const updateShoppingCart = (state, action) => {
-  if (state === undefined) {
-    return {
-      orderTotal: 0,
-      cartItems: [],
-    };
-  }
-  let cartItems = [];
-
-  switch (action.type) {
-    case 'BOOK_ADDED_TO_CART':
-      let bookId = action.payload;
-      cartItems = state.shoppingCart.cartItems.find(item => item.id === bookId)
-        ? updateCartItem(state, bookId, 1)
-        : addCartItem(state, bookId);
-      break;
-
-    case 'BOOK_DELETED_FROM_CART':
-      bookId = action.payload;
-      cartItems = deleteCartItem(state, bookId);
-      break;
-
-    case 'BOOK_DECREASED_IN_CART':
-      bookId = action.payload;
-      const book = state.shoppingCart.cartItems.find(
-        item => item.id === bookId
-      );
-      cartItems =
-        book.count === 1
-          ? deleteCartItem(state, bookId)
-          : updateCartItem(state, bookId, -1);
-      break;
-
-    default:
-      cartItems = [...state.shoppingCart.cartItems];
-      break;
-  }
-
-  const orderTotal = !cartItems
-    ? 0
-    : cartItems.reduce((acc, { subtotal }) => {
-        return acc + subtotal;
-      }, 0);
-  return { orderTotal, cartItems };
+const initialState = {
+  orderTotal: 0,
+  cartItems: [],
 };
 
-const deleteCartItem = ({ shoppingCart: { cartItems } }, bookId) => {
+const updateShoppingCart = (state = initialState, action) => {
+  let book = action.payload;
+  switch (action.type) {
+    case 'BOOK_ADDED_TO_CART':
+      let cartItems = state.cartItems.find(item => item.id === book.id)
+        ? updateCartItem(state.cartItems, book.id, 1)
+        : addCartItem(state.cartItems, book);
+      return { cartItems, orderTotal: orderTotal(cartItems) };
+
+    case 'BOOK_DELETED_FROM_CART':
+      cartItems = deleteCartItem(state, book.id);
+      return { cartItems, orderTotal: orderTotal(cartItems) };
+
+    case 'BOOK_DECREASED_IN_CART':
+      const books = state.cartItems.find(item => item.id === book.id);
+      cartItems =
+        books.count === 1
+          ? deleteCartItem(state, book.id)
+          : updateCartItem(state.cartItems, book.id, -1);
+      return { cartItems, orderTotal: orderTotal(cartItems) };
+
+    default:
+      return state;
+  }
+};
+
+const orderTotal = arr => {
+  return arr.reduce((acc, { count, price }) => acc + count * price, 0);
+};
+
+const deleteCartItem = ({ cartItems }, bookId) => {
   const index = cartItems.findIndex(item => item.id === bookId);
   const newCart = [...cartItems.slice(0, index), ...cartItems.slice(index + 1)];
   return newCart;
 };
 
-const addCartItem = (state, bookId) => {
-  const { id, title, price } = state.bookList.books.find(
-    book => book.id === bookId
-  );
-
+const addCartItem = (arr, book) => {
+  const { id, title, price } = book;
   const newItem = {
     id,
     title,
     count: 1,
-    subtotal: price,
+    price,
   };
-
-  return [...state.shoppingCart.cartItems, newItem];
+  return [...arr, newItem];
 };
 
-const updateCartItem = ({ bookList, shoppingCart }, bookId, quantity) => {
-  const { price } = bookList.books.find(book => book.id === bookId);
-  const newCartItems = shoppingCart.cartItems.map(item => {
-    if (item.id === bookId) {
+const updateCartItem = (arr, id, quantity) => {
+  return arr.map(item => {
+    if (item.id === id) {
       return {
         ...item,
         count: item.count + quantity,
-        subtotal: item.subtotal + quantity * price,
       };
     }
     return { ...item };
   });
-  return newCartItems;
 };
 
 export default updateShoppingCart;
