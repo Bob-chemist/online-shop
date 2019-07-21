@@ -26,7 +26,7 @@ const App = props => {
 
 function mapStateToProps(state) {
   return {
-    loggedIn: state.auth.token,
+    loggedIn: !!state.auth.token,
   };
 }
 
