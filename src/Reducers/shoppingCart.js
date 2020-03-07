@@ -5,9 +5,10 @@ const initialState = {
 
 const updateShoppingCart = (state = initialState, action) => {
   let book = action.payload;
+  let cartItems;
   switch (action.type) {
     case 'BOOK_ADDED_TO_CART':
-      let cartItems = state.cartItems.find(item => item.id === book.id)
+      cartItems = state.cartItems.find(item => item.id === book.id)
         ? updateCartItem(state.cartItems, book.id, 1)
         : addCartItem(state.cartItems, book);
       return { cartItems, orderTotal: orderTotal(cartItems) };
